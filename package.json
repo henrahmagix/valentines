@@ -5,7 +5,7 @@
   "main": "valentines.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "styles": "node styles.js"
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/henrahmagix/valentines#readme",
   "devDependencies": {
-    "node-bourbon": "^4.2.3",
-    "node-sass": "^3.4.2"
+    "gulp": "^3.9.1",
+    "gulp-connect": "^2.3.1",
+    "gulp-sass": "^2.2.0",
+    "node-bourbon": "^4.2.3"
   }
 }

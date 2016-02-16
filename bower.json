@@ -1,11 +1,11 @@
 {
-  "name": "henrahmagix.github.io",
-  "homepage": "https://github.com/henrahmagix/henrahmagix.github.io",
+  "name": "valentines",
+  "homepage": "https://github.com/henrahmagix/valentines",
   "authors": [
     "Henry Blyth <henry@henryblyth.com>"
   ],
-  "description": "",
-  "main": "",
+  "description": "Happy Valentine's Day!",
+  "main": "valentines.js",
   "moduleType": [],
   "license": "MIT",
   "ignore": [
@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "pressure": "^0.0.4"
+    "pressure": "^0.0.4",
+    "Font-Awesome-SVG-PNG": "font-awesome-svg-png#^1.1.2"
   }
 }

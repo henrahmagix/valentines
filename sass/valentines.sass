@@ -14,6 +14,7 @@ $white: #fffaf6
 $bg-color: $pink-dark
 $bg-color-end: $chocolate
 $text-color: $white
+$link-color: $chocolate
 $heart-wrapper-color: $chocolate
 $heart-color: $pink-light
 $circle-size: 300px
@@ -54,6 +55,12 @@ p
         size: 1.4em
     margin-top: 0
 
+a
+    color: $link-color
+    text-decoration: underline
+    @include hover
+        text-decoration: none
+
 #loading
     font:
         family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif
@@ -71,6 +78,12 @@ p
         opacity: 0
     to
         @include transform(scale3d(1, 1, 1))
+        opacity: 1
+
+@include keyframes(fade-in)
+    from
+        opacity: 0
+    to
         opacity: 1
 
 #main
@@ -134,6 +147,10 @@ body,
     @include transition-duration($quick)
     @include transition-timing-function(ease-out)
     @include transform-origin(50% 50%)
+
+.code-link
+    opacity: 0
+    @include animation(fade-in 400ms 1s forwards)
 
 body:not(.end)
     .text-end

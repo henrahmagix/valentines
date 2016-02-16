@@ -6,3 +6,8 @@
     @else
         -webkit-font-smoothing: subpixel-antialiased
         -moz-osx-font-smoothing: auto
+
+@mixin hover
+    &:hover,
+    &:focus
+        @content

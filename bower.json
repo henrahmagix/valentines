@@ -1,11 +1,11 @@
 {
-  "name": "henrahmagix.github.io",
-  "homepage": "https://github.com/henrahmagix/henrahmagix.github.io",
+  "name": "valentines",
+  "homepage": "https://github.com/henrahmagix/valentines",
   "authors": [
     "Henry Blyth <henry@henryblyth.com>"
   ],
-  "description": "",
-  "main": "",
+  "description": "Happy Valentine's Day!",
+  "main": "valentines.js",
   "moduleType": [],
   "license": "MIT",
   "ignore": [

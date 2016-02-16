@@ -1,0 +1,27 @@
+{
+  "name": "valentines",
+  "version": "1.0.0",
+  "description": "Happy Valentine's Day!",
+  "main": "valentines.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "styles": "node styles.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henrahmagix/valentines.git"
+  },
+  "keywords": [
+    "valentines"
+  ],
+  "author": "Henry Blyth <blyth.henry@gmail.com> (http://henryblyth.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/henrahmagix/valentines/issues"
+  },
+  "homepage": "https://github.com/henrahmagix/valentines#readme",
+  "devDependencies": {
+    "node-bourbon": "^4.2.3",
+    "node-sass": "^3.4.2"
+  }
+}

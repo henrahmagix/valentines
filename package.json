@@ -5,7 +5,8 @@
   "main": "valentines.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "$(npm bin)/gulp"
+    "start": "$(npm bin)/gulp",
+    "postinstall": "$(npm bin)/bower install"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/henrahmagix/valentines#readme",
   "devDependencies": {
+    "bower": "^1.7.7",
     "gulp": "^3.9.1",
     "gulp-connect": "^2.3.1",
     "gulp-sass": "^2.2.0",

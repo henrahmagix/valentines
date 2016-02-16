@@ -9,7 +9,6 @@ Happy Valentine's Day!
 ## Usage
 
 - Clone this repo
-- `bower install`
 - `npm install`
 - `npm start`
 - Open http://localhost:8080

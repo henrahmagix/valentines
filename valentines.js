@@ -20,6 +20,30 @@
         document.body.classList.remove('start', 'end');
     };
 
+    // Load icon svgs inline so they can be styled and not a font.
+    var iconsPath = 'lib/Font-Awesome-SVG-PNG/black/svg/';
+    var loadFontIcon = function (name, element) {
+        var icon = iconsPath + name + '.svg';
+        var id = 'fa-' + name;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', icon, true);
+        xhr.onload = function (event) {
+            var icon = xhr.responseXML.documentElement;
+            icon.id = id;
+            icon.classList.add(id);
+            element.appendChild(icon);
+        };
+
+        // Following line is just to be on the safe side;
+        // not needed if your server delivers SVG with correct MIME type
+        xhr.overrideMimeType('image/svg+xml');
+        xhr.send('');
+    };
+
+    loadFontIcon('heart', heart);
+    loadFontIcon('heart-o', heart);
+
     // Without force touch.
     var timeout;
     var delay = 2000; // 2 seconds

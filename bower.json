@@ -1,0 +1,21 @@
+{
+  "name": "henrahmagix.github.io",
+  "homepage": "https://github.com/henrahmagix/henrahmagix.github.io",
+  "authors": [
+    "Henry Blyth <henry@henryblyth.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pressure": "^0.0.4"
+  }
+}

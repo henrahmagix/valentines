@@ -1,0 +1,173 @@
+@import compass/css3
+
+$fa-font-path: "../font-awesome-4.3.0/fonts"
+@import font-awesome
+
+@import mixins
+
+$pink-light: #e57f95
+$pink-med: #a86d85
+$pink-dark: #cc5a6d
+$chocolate: #61432e
+$white: #fffaf6
+
+$bg-color: $pink-dark
+$bg-color-end: $chocolate
+$text-color: $white
+$heart-wrapper-color: $chocolate
+$heart-color: $pink-light
+$circle-size: 300px
+$heart-size-start: 4em
+$heart-size-end: 12em
+
+$quick: 100ms
+$slow: 2s
+
+body
+    background-color: $bg-color
+    color: $text-color
+    font:
+        family: "Great Vibes", serif
+        size: 100%
+        weight: normal
+    line-height: 1.4
+    text-align: center
+    @include font-smoothing
+    -webkit-user-select: none
+    -webkit-user-drag: none
+    -webkit-tap-highlight-color: rgba(#000, 0)
+    user-select: none
+    user-drag: none
+    tap-highlight-color: rgba(#000, 0)
+
+    // Hide text for different interactions.
+    &.force-touch .no-force-touch,
+    &:not(.force-touch) .force-touch
+        display: none
+
+h1
+    font:
+        size: 2em
+
+p
+    font:
+        size: 1.4em
+    margin-top: 0
+
+#loading
+    font:
+        family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif
+        weight: bold
+        style: italic
+        size: 40px
+    position: absolute
+    top: 50%
+    left: 0
+    width: 100%
+
+@include keyframes(load-in)
+    from
+        @include transform(scale3d(0, 0, 1))
+        opacity: 0
+    to
+        @include transform(scale3d(1, 1, 1))
+        opacity: 1
+
+#main
+    @include animation(load-in ($quick * 2) forwards)
+
+.text-end p
+    margin-bottom: 0
+
+.page-valentines
+    font:
+        size: 20px
+
+#valentines
+    position: relative
+    height: $circle-size
+    width: $circle-size
+    margin: auto
+    max-width: 100%
+
+.circle
+    background-color: $heart-wrapper-color
+    border-radius: 100%
+    height: 100%
+    width: 100%
+    position: absolute
+    top: 0
+    left: 0
+
+.fa
+    position: absolute
+    top: 50%
+    left: 50%
+    @include transform(translate3d(-50%, -50%, 0))
+    font-size: $heart-size-start
+    color: $heart-color
+    &::before
+        content: $fa-var-heart-o
+
+// Animation.
+
+@include keyframes(hide)
+    to
+        width: 0
+        height: 0
+
+@include keyframes(heartbeat)
+    to
+        @include transform(translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1))
+        @include filter(drop-shadow(0 0 10px rgba(#000, 0.4)))
+
+body,
+.circle,
+.text-during
+    @include transition(all $quick ease-out)
+
+.text-during
+    opacity: 0
+
+.fa
+    @include transition(all)
+    @include transition-duration($quick)
+    @include transition-timing-function(ease-out)
+    @include transform-origin(50% 50%)
+
+body:not(.end)
+    .text-end
+        display: none
+
+body:not(.reset)
+    .text-reset
+        display: none
+
+body.start
+    .text-during
+        opacity: 1
+    &.no-force-touch
+        .fa
+            @include transition-duration($slow)
+            @include transition-timing-function(cubic-bezier(0.75, 0.01, 0.99, 0.76))
+            font:
+                size: $heart-size-end
+
+body.end
+    .text-during,
+    .text-start
+        display: none
+    .circle
+        @include transform(scale3d(10, 10, 1))
+        @include transform(scale3d(0, 0, 1))
+    .fa
+        @include transition-duration($quick)
+        @include animation(heartbeat 250ms $quick infinite alternate)
+        font:
+            size: $heart-size-start
+        &::before
+            content: $fa-var-heart
+
+body.reset
+    .text-during
+        display: none

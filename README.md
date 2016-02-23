@@ -11,4 +11,14 @@ Happy Valentine's Day!
 - Clone this repo
 - `npm install`
 - `npm start`
-- Open http://localhost:8080
+- Open `http://localhost:8080`
+
+## GitHub Pages build
+
+This may result in updated `lib/` files. If so, manually test. There won't be any `MAJOR` upgrades, so hopefully nothing will break.
+
+Integration tests coming.
+
+Deploying to the `gh-pages` branch is handled by making a new version via npm:
+
+- `npm version [major|minor|patch]`

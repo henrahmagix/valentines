@@ -5,6 +5,7 @@ var sass = require('gulp-sass');
 var bourbon = require('node-bourbon');
 var connect = require('gulp-connect');
 var ghPages = require('gulp-gh-pages');
+var version = require('version');
 
 var paths = {
     src: './src',
@@ -55,11 +56,18 @@ gulp.task('serve', function () {
 // Make sure the CSS is compiled.
 gulp.task('dist', ['sass']);
 
+// Deploy to gh-pages with the current version in the commit.
 gulp.task('deploy', function () {
-    return gulp.src(files.src)
-        .pipe(ghPages({
-            force: true
-        }));
+    return version.fetch(function (error, version) {
+        if (error) {
+            throw new Error(error);
+        };
+        return gulp.src(files.src)
+            .pipe(ghPages({
+                force: true,
+                message: 'Update ' + version
+            }));
+    });
 });
 
 gulp.task('default', ['sass', 'watch', 'serve']);

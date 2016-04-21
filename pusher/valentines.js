@@ -21,7 +21,7 @@
     };
 
     // Load icon svgs inline so they can be styled and not a font.
-    var iconsPath = 'lib/Font-Awesome-SVG-PNG/black/svg/';
+    var iconsPath = '../lib/Font-Awesome-SVG-PNG/black/svg/';
     var loadFontIcon = function (name, element) {
         var icon = iconsPath + name + '.svg';
         var id = 'fa-' + name;

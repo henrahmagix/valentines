@@ -15,13 +15,18 @@
         document.body.classList.remove('start', 'reset');
         ended = true;
     };
-    var reset = function () {
-        document.body.classList.add('reset');
+    var reset = function (backToBeginning) {
+        if (!backToBeginning) {
+            document.body.classList.add('reset');
+        }
         document.body.classList.remove('start', 'end');
+    };
+    var resetBackToBeginning = function () {
+        reset(true);
     };
 
     // Load icon svgs inline so they can be styled and not a font.
-    var iconsPath = 'lib/Font-Awesome-SVG-PNG/black/svg/';
+    var iconsPath = '../lib/Font-Awesome-SVG-PNG/black/svg/';
     var loadFontIcon = function (name, element) {
         var icon = iconsPath + name + '.svg';
         var id = 'fa-' + name;
@@ -55,10 +60,16 @@
         eventOut = 'touchend';
     }
 
+    var completed = false;
+    var running = false;
+
     var heartStart = function () {
+        completed = false;
+        running = true;
         start();
         timeout = window.setTimeout(function () {
-            endNoForceTouch();
+            completed = true;
+            running = false;
             end();
         }, delay);
     };
@@ -67,18 +78,14 @@
         reset();
     };
 
-    var startNoForceTouch = function () {
+    var startPusher = function () {
         document.body.classList.add('no-force-touch');
-        valentines.addEventListener(eventIn, heartStart, false);
-        valentines.addEventListener(eventOut, heartEnd, false);
     };
-    var endNoForceTouch = function () {
-        valentines.removeEventListener(eventIn, heartStart);
-        valentines.removeEventListener(eventOut, heartEnd);
-    };
-    var cancelNoForceTouch = function () {
+    var cancelPusher = function () {
         heartEnd();
-        endNoForceTouch();
+    };
+    var resetPusher = function () {
+        resetBackToBeginning();
     };
 
     // http://button.pusher.io/
@@ -86,11 +93,21 @@
     var pusherButton = pusher.subscribe('button');
 
     pusherButton.bind('press', function(data) {
+        if (completed) {
+            completed = false;
+            return;
+        }
         heartStart();
-        startNoForceTouch();
+        startPusher();
     });
     pusherButton.bind('release', function(data) {
-      cancelNoForceTouch();
+        if (completed) {
+            return;
+        } else if (running) {
+            cancelPusher();
+        } else {
+            resetPusher();
+        }
     });
 
     // Finish loading. A function in the event queue will only be processed

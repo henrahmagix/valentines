@@ -1,4 +1,4 @@
-(function (document, Pressure) {
+(function (document, Pusher) {
 
     var valentines = document.getElementById('valentines');
     var heart = document.getElementById('heart');
@@ -67,9 +67,6 @@
         reset();
     };
 
-    var startForceTouch = function () {
-        document.body.classList.add('force-touch');
-    };
     var startNoForceTouch = function () {
         document.body.classList.add('no-force-touch');
         valentines.addEventListener(eventIn, heartStart, false);
@@ -84,51 +81,16 @@
         endNoForceTouch();
     };
 
-    // With force touch.
-    var styleForceValue = function (forceValue) {
-        // Style the circle and heart like iOS 9+ 3d touch.
-        // Copied from https://github.com/freinbichler/3d-touch/blob/e8f606284c2e08b039b3a2e595c4d6b1e2e52055/3dtouch.js#L47-L48
-        heart.style.webkitTransform = 'translateX(-50%) translateY(-50%) scale(' + (1 + forceValue * 1.5) + ')';
-        circle.style.webkitFilter = 'blur(' + forceValue * 30 + 'px)';
-    };
+    // http://button.pusher.io/
+    var pusher = new Pusher('087e104eb546157304a9', {cluster:'eu'});
+    var pusherButton = pusher.subscribe('button');
 
-    // Pressure.js http://yamartino.github.io/pressure/
-    var isSetup = false;
-    Pressure.set(valentines, {
-        start: function (event) {
-            if (ended) {
-                return;
-            }
-            if (!isSetup) {
-                startForceTouch();
-            }
-            start();
-        },
-        end: function (event) {
-            if (ended) {
-                return;
-            }
-            styleForceValue(0);
-            reset();
-        },
-        change: function (forceValue, event) {
-            if (ended) {
-                return;
-            }
-            styleForceValue(forceValue);
-            if (forceValue >= 0.95) {
-                end();
-            }
-        },
-        unsupported: function () {
-            // Use non-force-touch functions.
-            if (!isSetup) {
-                // Only run once.
-                heartStart();
-                startNoForceTouch();
-            }
-            isSetup = true;
-        }
+    pusherButton.bind('press', function(data) {
+        heartStart();
+        startNoForceTouch();
+    });
+    pusherButton.bind('release', function(data) {
+      cancelNoForceTouch();
     });
 
     // Finish loading. A function in the event queue will only be processed
@@ -138,4 +100,4 @@
         document.getElementById('loading').style.display = 'none';
     }, 1000);
 
-}(window.document, window.Pressure));
+}(window.document, window.Pusher));

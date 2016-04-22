@@ -129,6 +129,12 @@ a
         width: 0
         height: 0
 
+@include keyframes(ba-boom)
+    to
+        opacity: 1
+        @include transform(scale3d(1.4, 1.4, 1))
+        @include filter(drop-shadow(0 0 10px rgba(#000, 0.4)))
+
 @include keyframes(heartbeat)
     to
         @include transform(translate3d(-50%, -50%, 0) scale3d(1.4, 1.4, 1))
@@ -139,7 +145,8 @@ body,
 .text-during
     @include transition(all $speed-quick ease-out)
 
-.text-during
+.text-during,
+.text-beat
     opacity: 0
 
 .fa
@@ -182,7 +189,8 @@ body.start
 
 body.end
     .text-during,
-    .text-start
+    .text-start,
+    .text-beat
         display: none
     .circle
         @include transform(scale3d(10, 10, 1))
@@ -203,3 +211,5 @@ body.beat
     &.no-force-touch
         .fa
             @include animation(heartbeat $speed-med 0ms 2 alternate)
+        .text-beat
+            @include animation(ba-boom $speed-med 0ms 2 alternate)

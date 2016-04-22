@@ -6,27 +6,49 @@
 
     var ended = false;
 
+    var bodyClassNames = ['start', 'end', 'reset'];
+    var setBodyClass = function (classNameToSet) {
+        if (classNameToSet) {
+            if (bodyClassNames.indexOf(classNameToSet) === -1) {
+                throw new Error('setBodyClass: className ' + classNameToSet + ' not in bodyClassNames: ' + bodyClassNames.join(', '));
+            }
+            document.body.classList.add(classNameToSet);
+        }
+        bodyClassNames.forEach(function (className) {
+            if (className !== classNameToSet) {
+                document.body.classList.remove(className);
+            }
+        });
+    };
+
+    var setTransitionDuration = function (element, durationCSS) {
+        if (!durationCSS) {
+            durationCSS = null;
+        }
+        element.style.transitionDuration = durationCSS;
+        element.style.webkitTransitionDuration = durationCSS;
+        element.style.mozTransitionDuration = durationCSS;
+    };
+
     var start = function (durationCSS) {
-        document.body.classList.add('start');
-        document.body.classList.remove('end', 'reset');
-        var heart = document.getElementById('heart');
-        heart.style.transitionDuration = durationCSS;
-        heart.style.webkitTransitionDuration = durationCSS;
-        heart.style.mozTransitionDuration = durationCSS;
+        setBodyClass('start');
+        document.body.classList.remove('beat');
+        setTransitionDuration(heart, durationCSS);
     };
     var end = function () {
-        document.body.classList.add('end');
-        document.body.classList.remove('start', 'reset');
+        setBodyClass('end');
+        setTransitionDuration(heart, null);
         ended = true;
     };
     var reset = function (backToBeginning) {
-        if (!backToBeginning) {
-            document.body.classList.add('reset');
-        }
-        document.body.classList.remove('start', 'end');
+        setBodyClass(backToBeginning ? null : 'reset');
+        setTransitionDuration(heart, null);
     };
     var resetBackToBeginning = function () {
         reset(true);
+    };
+    var beat = function () {
+        document.body.classList.add('beat');
     };
 
     // Load icon svgs inline so they can be styled and not a font.
@@ -82,6 +104,9 @@
         window.clearTimeout(timeout);
         reset();
     };
+    var heartBeat = function () {
+        beat();
+    };
 
     var startPusher = function () {
         document.body.classList.add('no-force-touch');
@@ -97,7 +122,10 @@
     var pusher = new Pusher('087e104eb546157304a9', {cluster:'eu'});
     var pusherButton = pusher.subscribe('button');
 
-    pusherButton.bind('press', function(data) {
+    var timer = {};
+
+    pusherButton.bind('press', function (data) {
+        timer.start = Date.now();
         if (completed) {
             completed = false;
             return;
@@ -105,7 +133,11 @@
         heartStart();
         startPusher();
     });
-    pusherButton.bind('release', function(data) {
+    pusherButton.bind('release', function (data) {
+        timer.end = Date.now();
+        if (timer.end - timer.start <= 500) {
+            heartBeat();
+        }
         if (completed) {
             return;
         } else if (running) {

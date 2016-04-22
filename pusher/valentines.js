@@ -6,6 +6,21 @@
 
     var ended = false;
 
+    var bodyClassNames = ['start', 'end', 'reset'];
+    var setBodyClass = function (classNameToSet) {
+        if (classNameToSet) {
+            if (bodyClassNames.indexOf(classNameToSet) === -1) {
+                throw new Error('setBodyClass: className ' + classNameToSet + ' not in bodyClassNames: ' + bodyClassNames.join(', '));
+            }
+            document.body.classList.add(classNameToSet);
+        }
+        bodyClassNames.forEach(function (className) {
+            if (className !== classNameToSet) {
+                document.body.classList.remove(className);
+            }
+        });
+    };
+
     var setTransitionDuration = function (element, durationCSS) {
         if (!durationCSS) {
             durationCSS = null;
@@ -16,21 +31,16 @@
     };
 
     var start = function (durationCSS) {
-        document.body.classList.add('start');
-        document.body.classList.remove('end', 'reset');
+        setBodyClass('start');
         setTransitionDuration(heart, durationCSS);
     };
     var end = function () {
-        document.body.classList.add('end');
-        document.body.classList.remove('start', 'reset');
+        setBodyClass('end');
         setTransitionDuration(heart, null);
         ended = true;
     };
     var reset = function (backToBeginning) {
-        if (!backToBeginning) {
-            document.body.classList.add('reset');
-        }
-        document.body.classList.remove('start', 'end');
+        setBodyClass(backToBeginning ? null : 'reset');
         setTransitionDuration(heart, null);
     };
     var resetBackToBeginning = function () {

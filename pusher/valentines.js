@@ -135,12 +135,12 @@
     });
     pusherButton.bind('release', function (data) {
         timer.end = Date.now();
-        if (timer.end - timer.start <= 500) {
-            heartBeat();
-        }
         if (completed) {
             return;
         } else if (running) {
+            if (timer.end - timer.start <= 500) {
+                heartBeat();
+            }
             cancelPusher();
         } else {
             resetPusher();

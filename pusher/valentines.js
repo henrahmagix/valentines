@@ -6,9 +6,13 @@
 
     var ended = false;
 
-    var start = function () {
+    var start = function (durationCSS) {
         document.body.classList.add('start');
         document.body.classList.remove('end', 'reset');
+        var heart = document.getElementById('heart');
+        heart.style.transitionDuration = durationCSS;
+        heart.style.webkitTransitionDuration = durationCSS;
+        heart.style.mozTransitionDuration = durationCSS;
     };
     var end = function () {
         document.body.classList.add('end');
@@ -51,7 +55,8 @@
 
     // Without force touch.
     var timeout;
-    var delay = 2000; // 2 seconds
+    var delay = 1000; // overrides css transition-delay
+    var delayCSS = delay + 'ms';
     // Mouse or touch events.
     var eventIn = 'mousedown';
     var eventOut = 'mouseup';
@@ -66,7 +71,7 @@
     var heartStart = function () {
         completed = false;
         running = true;
-        start();
+        start(delayCSS);
         timeout = window.setTimeout(function () {
             completed = true;
             running = false;

@@ -18,8 +18,9 @@ $circle-size: 300px
 $heart-size-start: 80px
 $heart-size-end: 240px
 
-$quick: 100ms
-$slow: 2s
+$speed-quick: 100ms
+$speed-med: 250ms
+$speed-slow: 2s
 
 body
     background-color: $bg-color
@@ -84,7 +85,7 @@ a
         opacity: 1
 
 #main
-    @include animation(load-in ($quick * 2) forwards)
+    @include animation(load-in ($speed-quick * 2) forwards)
 
 .text-end p
     margin-bottom: 0
@@ -136,14 +137,14 @@ a
 body,
 .circle,
 .text-during
-    @include transition(all $quick ease-out)
+    @include transition(all $speed-quick ease-out)
 
 .text-during
     opacity: 0
 
 .fa
     @include transition(all)
-    @include transition-duration($quick)
+    @include transition-duration($speed-quick)
     @include transition-timing-function(ease-out)
     @include transform-origin(50% 50%)
 
@@ -154,19 +155,27 @@ body,
 body:not(.end)
     .text-end
         display: none
-    .fa-heart
-        display: none
 
 body:not(.reset)
     .text-reset
         display: none
+
+body:not(.start):not(.end)
+    .fa-heart
+        display: none
+
+body
+    &.start,
+    &.end
+        .fa-heart-o
+            display: none
 
 body.start
     .text-during
         opacity: 1
     &.no-force-touch
         .fa
-            @include transition-duration($slow)
+            @include transition-duration($speed-slow)
             @include transition-timing-function(cubic-bezier(0.75, 0.01, 0.99, 0.76))
             height: $heart-size-end
             width: $heart-size-end
@@ -179,13 +188,18 @@ body.end
         @include transform(scale3d(10, 10, 1))
         @include transform(scale3d(0, 0, 1))
     .fa
-        @include transition-duration($quick)
-        @include animation(heartbeat 250ms $quick infinite alternate)
+        @include transition-duration($speed-quick)
+        @include animation(heartbeat $speed-med $speed-quick infinite alternate)
         height: $heart-size-start
         width: $heart-size-start
-        .fa-heart-o
-            display: none
+    .fa-heart-o
+        display: none
 
 body.reset
     .text-during
         display: none
+
+body.beat
+    &.no-force-touch
+        .fa
+            @include animation(heartbeat $speed-med 0ms 2 alternate)

@@ -32,6 +32,7 @@
 
     var start = function (durationCSS) {
         setBodyClass('start');
+        document.body.classList.remove('beat');
         setTransitionDuration(heart, durationCSS);
     };
     var end = function () {
@@ -45,6 +46,9 @@
     };
     var resetBackToBeginning = function () {
         reset(true);
+    };
+    var beat = function () {
+        document.body.classList.add('beat');
     };
 
     // Load icon svgs inline so they can be styled and not a font.
@@ -100,6 +104,9 @@
         window.clearTimeout(timeout);
         reset();
     };
+    var heartBeat = function () {
+        beat();
+    };
 
     var startPusher = function () {
         document.body.classList.add('no-force-touch');
@@ -115,7 +122,10 @@
     var pusher = new Pusher('087e104eb546157304a9', {cluster:'eu'});
     var pusherButton = pusher.subscribe('button');
 
-    pusherButton.bind('press', function(data) {
+    var timer = {};
+
+    pusherButton.bind('press', function (data) {
+        timer.start = Date.now();
         if (completed) {
             completed = false;
             return;
@@ -123,7 +133,11 @@
         heartStart();
         startPusher();
     });
-    pusherButton.bind('release', function(data) {
+    pusherButton.bind('release', function (data) {
+        timer.end = Date.now();
+        if (timer.end - timer.start <= 500) {
+            heartBeat();
+        }
         if (completed) {
             return;
         } else if (running) {

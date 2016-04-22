@@ -6,17 +6,24 @@
 
     var ended = false;
 
+    var setTransitionDuration = function (element, durationCSS) {
+        if (!durationCSS) {
+            durationCSS = null;
+        }
+        element.style.transitionDuration = durationCSS;
+        element.style.webkitTransitionDuration = durationCSS;
+        element.style.mozTransitionDuration = durationCSS;
+    };
+
     var start = function (durationCSS) {
         document.body.classList.add('start');
         document.body.classList.remove('end', 'reset');
-        var heart = document.getElementById('heart');
-        heart.style.transitionDuration = durationCSS;
-        heart.style.webkitTransitionDuration = durationCSS;
-        heart.style.mozTransitionDuration = durationCSS;
+        setTransitionDuration(heart, durationCSS);
     };
     var end = function () {
         document.body.classList.add('end');
         document.body.classList.remove('start', 'reset');
+        setTransitionDuration(heart, null);
         ended = true;
     };
     var reset = function (backToBeginning) {
@@ -24,6 +31,7 @@
             document.body.classList.add('reset');
         }
         document.body.classList.remove('start', 'end');
+        setTransitionDuration(heart, null);
     };
     var resetBackToBeginning = function () {
         reset(true);
